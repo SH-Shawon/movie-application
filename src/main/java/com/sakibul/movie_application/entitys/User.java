@@ -28,4 +28,7 @@ public class User {
         favourites.add(movie);
     }
 
+    public void removeFromFavourite(Movie movie){
+        favourites.remove(movie);
+    }
 }
