@@ -123,4 +123,31 @@ public class TestMovieApplication {
         assertNotNull(user.getFavourites());
         assertTrue(user.getFavourites().contains(movie));
     }
+
+    @Test
+    public void testRemoveFromFavorites() {
+        MovieApplication movieApplication = new MovieApplication();
+
+        String email = "sakibul@gmail.com";
+        movieApplication.registerUser(email);
+        User user = movieApplication.getUserDetails(email);
+
+        String title = "sakibul@gmail.com";
+        List<String> cast = new ArrayList<>();
+        cast.add("Tim Robbins");
+        cast.add("Morgan Freeman");
+        List<String> category = List.of("Drama");
+        LocalDate releaseDate = LocalDate.parse("1994-10-14");
+        int budget = 25000000;
+        Movie movie = new Movie(title, cast, category, releaseDate, budget);
+        movieApplication.addMovie(title, cast, category, releaseDate, budget);
+        movieApplication.addToFavorites(user, movie);
+
+        assertNotNull(user.getFavourites());
+        assertTrue(user.getFavourites().contains(movie));
+
+        movieApplication.removeFromFavorites(user, movie);
+
+        assertTrue(user.getFavourites().isEmpty() || !user.getFavourites().contains(movie));
+    }
 }
