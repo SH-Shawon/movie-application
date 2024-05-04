@@ -10,20 +10,20 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-public class TestMovieApplication {
+public class TestMovieApp {
     @Test
     public void testRegisteringUser(){
-        MovieApplication movieApplication = new MovieApplication();
+        MovieApp movieApp = new MovieApp();
         String email = "shawon@gmail.com";
-        movieApplication.registerUser(email);
-        User user = movieApplication.getUserDetails(email);
+        movieApp.registerUser(email);
+        User user = movieApp.getUserDetails(email);
         assertNotNull(user);
         assertEquals(email,user.getEmail());
     }
 
     @Test
     public void testAddMovie() {
-        MovieApplication movieApplication = new MovieApplication();
+        MovieApp movieApp = new MovieApp();
         String title = "The Shawshank Redemption";
         List<String> cast = new ArrayList<>();
         cast.add("Tim Robbins");
@@ -32,9 +32,9 @@ public class TestMovieApplication {
         LocalDate releaseDate = LocalDate.parse("1994-10-14");
         int budget = 25000000;
 
-        movieApplication.addMovie(title, cast, category, releaseDate, budget);
+        movieApp.addMovie(title, cast, category, releaseDate, budget);
 
-        List<Movie> allMovies = movieApplication.getAllMovies();
+        List<Movie> allMovies = movieApp.getAllMovies();
         assertEquals(1, allMovies.size());
         Movie movie = allMovies.get(0);
         assertEquals(title, movie.getTitle());
@@ -46,7 +46,7 @@ public class TestMovieApplication {
 
     @Test
     public void testSearchMoviesByTitle() {
-        MovieApplication movieApplication = new MovieApplication();
+        MovieApp movieApp = new MovieApp();
         String title = "The Shawshank Redemption";
         List<String> cast = new ArrayList<>();
         cast.add("Tim Robbins");
@@ -55,10 +55,10 @@ public class TestMovieApplication {
         LocalDate releaseDate = LocalDate.parse("1994-10-14");
         int budget = 25000000;
 
-        movieApplication.addMovie(title, cast, category, releaseDate, budget);
+        movieApp.addMovie(title, cast, category, releaseDate, budget);
 
         String searchTerm = "Shawshank";
-        List<Movie> results = movieApplication.searchMovies(searchTerm);
+        List<Movie> results = movieApp.searchMovies(searchTerm);
         assertEquals(1, results.size());
         Movie movie = results.get(0);
         assertEquals(title, movie.getTitle());
@@ -66,17 +66,17 @@ public class TestMovieApplication {
 
     @Test
     public void testSearchMoviesByCast() {
-        MovieApplication movieApplication = new MovieApplication();
+        MovieApp movieApp = new MovieApp();
         String title = "The Shawshank Redemption";
         List<String> cast = List.of("Tim Robbins", "Morgan Freeman");
         List<String> category = List.of("Drama");
         LocalDate releaseDate = LocalDate.parse("1994-10-14");
         int budget = 25000000;
 
-        movieApplication.addMovie(title, cast, category, releaseDate, budget);
+        movieApp.addMovie(title, cast, category, releaseDate, budget);
 
         String searchTerm = "Freeman";
-        List<Movie> results = movieApplication.searchMovies(searchTerm);
+        List<Movie> results = movieApp.searchMovies(searchTerm);
         assertEquals(1, results.size());
         Movie movie = results.get(0);
         assertEquals(title, movie.getTitle());
@@ -84,17 +84,17 @@ public class TestMovieApplication {
 
     @Test
     public void testSearchMoviesByCategory() {
-        MovieApplication movieApplication = new MovieApplication();
+        MovieApp movieApp = new MovieApp();
         String title = "The Shawshank Redemption";
         List<String> cast = List.of("Tim Robbins", "Morgan Freeman");
         List<String> category = List.of("Drama");
         LocalDate releaseDate = LocalDate.parse("1994-10-14");
         int budget = 25000000;
 
-        movieApplication.addMovie(title, cast, category, releaseDate, budget);
+        movieApp.addMovie(title, cast, category, releaseDate, budget);
 
         String searchTerm = "Drama";
-        List<Movie> results = movieApplication.searchMovies(searchTerm);
+        List<Movie> results = movieApp.searchMovies(searchTerm);
         assertEquals(1, results.size());
         Movie movie = results.get(0);
         assertEquals(title, movie.getTitle());
@@ -102,11 +102,11 @@ public class TestMovieApplication {
 
     @Test
     public void testAddToFavorites() {
-        MovieApplication movieApplication = new MovieApplication();
+        MovieApp movieApp = new MovieApp();
 
         String email = "shawon@gmail.com";
-        movieApplication.registerUser(email);
-        User user = movieApplication.getUserDetails(email);
+        movieApp.registerUser(email);
+        User user = movieApp.getUserDetails(email);
 
         String title = "The Shawshank Redemption";
         List<String> cast = new ArrayList<>();
@@ -116,9 +116,9 @@ public class TestMovieApplication {
         LocalDate releaseDate = LocalDate.parse("1994-10-14");
         int budget = 25000000;
         Movie movie = new Movie(title, cast, category, releaseDate, budget);
-        movieApplication.addMovie(title, cast, category, releaseDate, budget);
+        movieApp.addMovie(title, cast, category, releaseDate, budget);
 
-        movieApplication.addToFavorites(user, movie);
+        movieApp.addToFavorites(user, movie);
 
         assertNotNull(user.getFavourites());
         assertTrue(user.getFavourites().contains(movie));
@@ -126,11 +126,11 @@ public class TestMovieApplication {
 
     @Test
     public void testRemoveFromFavorites() {
-        MovieApplication movieApplication = new MovieApplication();
+        MovieApp movieApp = new MovieApp();
 
         String email = "sakibul@gmail.com";
-        movieApplication.registerUser(email);
-        User user = movieApplication.getUserDetails(email);
+        movieApp.registerUser(email);
+        User user = movieApp.getUserDetails(email);
 
         String title = "sakibul@gmail.com";
         List<String> cast = new ArrayList<>();
@@ -140,20 +140,20 @@ public class TestMovieApplication {
         LocalDate releaseDate = LocalDate.parse("1994-10-14");
         int budget = 25000000;
         Movie movie = new Movie(title, cast, category, releaseDate, budget);
-        movieApplication.addMovie(title, cast, category, releaseDate, budget);
-        movieApplication.addToFavorites(user, movie);
+        movieApp.addMovie(title, cast, category, releaseDate, budget);
+        movieApp.addToFavorites(user, movie);
 
         assertNotNull(user.getFavourites());
         assertTrue(user.getFavourites().contains(movie));
 
-        movieApplication.removeFromFavorites(user, movie);
+        movieApp.removeFromFavorites(user, movie);
 
         assertTrue(user.getFavourites().isEmpty() || !user.getFavourites().contains(movie));
     }
 
     @Test
     public void testGetMovieDetails() {
-        MovieApplication movieApplication = new MovieApplication();
+        MovieApp movieApp = new MovieApp();
 
         String title1 = "The Shawshank Redemption";
         List<String> cast1 = new ArrayList<>();
@@ -169,14 +169,14 @@ public class TestMovieApplication {
         LocalDate releaseDate2 = LocalDate.parse("1972-03-24");
         int budget2 = 6000000;
 
-        movieApplication.addMovie(title1, cast1, category1, releaseDate1, budget1);
-        movieApplication.addMovie(title2, cast2, category2, releaseDate2, budget2);
+        movieApp.addMovie(title1, cast1, category1, releaseDate1, budget1);
+        movieApp.addMovie(title2, cast2, category2, releaseDate2, budget2);
 
-        Movie movie1 = movieApplication.getMovieDetails(title1);
+        Movie movie1 = movieApp.getMovieDetails(title1);
         assertNotNull(movie1);
         assertEquals(title1, movie1.getTitle());
 
-        Movie movie2 = movieApplication.getMovieDetails("The Dark Knight");
+        Movie movie2 = movieApp.getMovieDetails("The Dark Knight");
         assertNull(movie2);
     }
 

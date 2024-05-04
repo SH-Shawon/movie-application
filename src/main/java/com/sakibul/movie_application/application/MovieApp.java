@@ -7,11 +7,11 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MovieApplication {
+public class MovieApp {
     private List<User> users;
     private List<Movie> allMovies;
 
-    public MovieApplication() {
+    public MovieApp() {
         users = new ArrayList<>();
         allMovies = new ArrayList<>();
     }
