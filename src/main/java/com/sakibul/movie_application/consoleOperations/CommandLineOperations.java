@@ -108,6 +108,7 @@ public class CommandLineOperations {
             System.out.println("\nUser Menu:");
             System.out.println("1. Search Movies");
             System.out.println("2. See Movie Details by Title");
+            System.out.println("3. View Personal Details");
             System.out.println("0. Logout");
             System.out.print("Enter your choice: ");
 
@@ -121,6 +122,9 @@ public class CommandLineOperations {
                     break;
                 case 2:
                     seeMovieDetailsByTitle(user);
+                    break;
+                case 3:
+                    showUserDetails(user);
                     break;
                 case 0:
                     System.out.println("Logging out...");
@@ -206,7 +210,6 @@ public class CommandLineOperations {
             System.out.println("Category: " + selectedMovie.getCategory());
             System.out.println("Release Date: " + selectedMovie.getReleaseDate());
             System.out.println("Budget: $" + selectedMovie.getBudget());
-            System.out.print("\nDo you want to add this movie to your favorites (y/n)? ");
             String addToFavourites;
             do {
                 System.out.print("\nDo you want to add this movie to your favorites (y/n)? ");
@@ -218,6 +221,23 @@ public class CommandLineOperations {
             }
         } else {
             System.out.println("Invalid choice or cancelled.");
+        }
+    }
+
+
+    private void showUserDetails(User user) {
+        System.out.println("\nUser Details:");
+        System.out.println("Email: " + user.getEmail());
+
+        System.out.println("\nFavorites:");
+        List<Movie> favourites = user.getFavourites();
+        if (favourites.isEmpty()) {
+            System.out.println("You don't have any favorite movies yet.");
+        } else {
+            int serialNo = 1;
+            for (Movie movie : favourites) {
+                System.out.println(serialNo++ + ". " + movie.getTitle());
+            }
         }
     }
 
