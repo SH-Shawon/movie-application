@@ -109,6 +109,7 @@ public class CommandLineOperations {
             System.out.println("1. Search Movies");
             System.out.println("2. See Movie Details by Title");
             System.out.println("3. View Personal Details");
+            System.out.println("4. Search movies that are among your favorite list");
             System.out.println("0. Logout");
             System.out.print("Enter your choice: ");
 
@@ -125,6 +126,9 @@ public class CommandLineOperations {
                     break;
                 case 3:
                     showUserDetails(user);
+                    break;
+                case 4:
+                    searchFavoriteList(user);
                     break;
                 case 0:
                     System.out.println("Logging out...");
@@ -240,5 +244,38 @@ public class CommandLineOperations {
             }
         }
     }
+
+
+    private void searchFavoriteList(User user) {
+        List<Movie> favorites = user.getFavourites();
+        if (favorites.isEmpty()) {
+            System.out.println("You don't have any favorite movies yet.");
+            return;
+        }
+
+        System.out.print("Enter search term (title, cast, or category): ");
+        Scanner scanner = new Scanner(System.in);
+        String searchTerm = scanner.nextLine();
+
+        List<Movie> filteredFavorites = new ArrayList<>();
+        for (Movie movie : favorites) {
+            if (movie.getTitle().toLowerCase().contains(searchTerm.toLowerCase()) ||
+                    movie.getCast().stream().anyMatch(castMember -> castMember.toLowerCase().contains(searchTerm.toLowerCase())) ||
+                    movie.getCategory().stream().anyMatch(category -> category.toLowerCase().contains(searchTerm.toLowerCase()))) {
+                filteredFavorites.add(movie);
+            }
+        }
+
+        if (filteredFavorites.isEmpty()) {
+            System.out.println("No matching favorites found for your search term.");
+        } else {
+            System.out.println("\nSearch Results:");
+            int serialNo = 1;
+            for (Movie movie : filteredFavorites) {
+                System.out.println(serialNo++ + ". " + movie.getTitle());
+            }
+        }
+    }
+
 
 }
