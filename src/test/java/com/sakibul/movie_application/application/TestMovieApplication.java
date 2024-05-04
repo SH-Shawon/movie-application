@@ -44,4 +44,60 @@ public class TestMovieApplication {
         assertEquals(releaseDate, movie.getReleaseDate());
         assertEquals(budget, movie.getBudget());
     }
+
+    @Test
+    public void testSearchMoviesByTitle() {
+        MovieApplication movieApplication = new MovieApplication();
+        String title = "The Shawshank Redemption";
+        List<String> cast = new ArrayList<>();
+        cast.add("Tim Robbins");
+        cast.add("Morgan Freeman");
+        List<String> category = List.of("Drama");
+        LocalDate releaseDate = LocalDate.parse("1994-10-14");
+        int budget = 25000000;
+
+        movieApplication.addMovie(title, cast, category, releaseDate, budget);
+
+        String searchTerm = "Shawshank";
+        List<Movie> results = movieApplication.searchMovies(searchTerm);
+        assertEquals(1, results.size());
+        Movie movie = results.get(0);
+        assertEquals(title, movie.getTitle());
+    }
+
+    @Test
+    public void testSearchMoviesByCast() {
+        MovieApplication movieApplication = new MovieApplication();
+        String title = "The Shawshank Redemption";
+        List<String> cast = List.of("Tim Robbins", "Morgan Freeman");
+        List<String> category = List.of("Drama");
+        LocalDate releaseDate = LocalDate.parse("1994-10-14");
+        int budget = 25000000;
+
+        movieApplication.addMovie(title, cast, category, releaseDate, budget);
+
+        String searchTerm = "Freeman";
+        List<Movie> results = movieApplication.searchMovies(searchTerm);
+        assertEquals(1, results.size());
+        Movie movie = results.get(0);
+        assertEquals(title, movie.getTitle());
+    }
+
+    @Test
+    public void testSearchMoviesByCategory() {
+        MovieApplication movieApplication = new MovieApplication();
+        String title = "The Shawshank Redemption";
+        List<String> cast = List.of("Tim Robbins", "Morgan Freeman");
+        List<String> category = List.of("Drama");
+        LocalDate releaseDate = LocalDate.parse("1994-10-14");
+        int budget = 25000000;
+
+        movieApplication.addMovie(title, cast, category, releaseDate, budget);
+
+        String searchTerm = "Drama";
+        List<Movie> results = movieApplication.searchMovies(searchTerm);
+        assertEquals(1, results.size());
+        Movie movie = results.get(0);
+        assertEquals(title, movie.getTitle());
+    }
 }
