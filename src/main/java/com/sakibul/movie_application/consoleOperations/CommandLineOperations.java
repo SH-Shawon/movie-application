@@ -2,10 +2,16 @@ package com.sakibul.movie_application.consoleOperations;
 
 import com.sakibul.movie_application.application.MovieApp;
 import com.sakibul.movie_application.entities.Movie;
+import com.sakibul.movie_application.entities.User;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
+import java.util.Scanner;
 
 public class CommandLineOperations {
     private MovieApp movieApp;
@@ -78,4 +84,68 @@ public class CommandLineOperations {
             System.out.println("Budget: $" + movie.getBudget());
         }
     }
+
+    public void registerUser() throws IOException {
+        System.out.print("Enter your email address: ");
+        BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(System.in));
+        String email = bufferedReader.readLine();
+
+        boolean flag=true;
+        while (flag) {
+            if (!email.trim().equals("")) {
+                User user = new User(email);
+                movieApp.setUsers(user);
+                this.userMenu(user);
+                flag=false;
+            } else {
+                System.out.println("Insert a valid email");
+                this.registerUser();
+            }
+        }
+    }
+
+    private void userMenu(User user) throws IOException {
+        int choice;
+
+        do {
+            System.out.println("\nUser Menu:");
+            System.out.println("1. Search Movies");
+            System.out.println("0. Logout");
+            System.out.print("Enter your choice: ");
+
+            Scanner scanner = new Scanner(System.in);
+            choice = scanner.nextInt();
+            scanner.nextLine();
+
+            switch (choice) {
+                case 1:
+                    searchMovies(user);
+                    break;
+                case 0:
+                    System.out.println("Logging out...");
+                    System.exit(0);
+                    break;
+                default:
+                    System.out.println("Invalid choice. Please try again.");
+            }
+        } while (choice != 0);
+    }
+
+    private void searchMovies(User user) throws IOException {
+        System.out.print("Enter title, cast or category to search: ");
+        BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(System.in));
+        String searchTerm = bufferedReader.readLine();
+
+        List<Movie> results = movieApp.searchMovies(searchTerm);
+        if (results.isEmpty()) {
+            System.out.println("No movies found matching your search term.");
+        } else {
+            System.out.println("\nSearch Results:");
+            int serialNo = 1;
+            for (Movie movie : results) {
+                System.out.println(serialNo++ + ". " + movie.getTitle());
+            }
+        }
+    }
+
 }

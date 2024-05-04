@@ -18,5 +18,6 @@ public class MovieApplication implements CommandLineRunner {
 		System.out.println("Welcome to our movie app!");
 		CommandLineOperations commandLineOperations = new CommandLineOperations(new MovieApp());
 		commandLineOperations.createSampleMovies();
+		commandLineOperations.registerUser();
 	}
 }
