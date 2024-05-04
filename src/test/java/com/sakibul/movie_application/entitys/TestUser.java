@@ -6,8 +6,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class TestUser {
     @Test
@@ -33,5 +32,32 @@ public class TestUser {
 
         assertEquals(1, user.getFavourites().size());
         assertTrue(user.getFavourites().contains(movie));
+    }
+
+    @Test
+    public void testRemoveFromFavorites() {
+        User user = new User("sakibul@gmail.com");
+
+        String title = "The Godfather";
+        List<String> cast = List.of("Marlon Brando", "Al Pacino");
+        List<String> category = List.of("Crime");
+        LocalDate releaseDate = LocalDate.parse("1972-03-24");
+        int budget = 6000000;
+        Movie movie = new Movie(title, cast, category, releaseDate, budget);
+
+        user.setFavourites(movie);
+        user.setFavourites(movie);
+
+        assertEquals(2, user.getFavourites().size());
+        assertTrue(user.getFavourites().contains(movie));
+
+        user.removeFromFavourite(movie);
+
+        assertEquals(1, user.getFavourites().size());
+        assertTrue(user.getFavourites().contains(movie));
+
+        user.removeFromFavourite(movie);
+        assertFalse(user.getFavourites().contains(movie));
+
     }
 }
