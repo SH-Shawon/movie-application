@@ -83,5 +83,8 @@ public class MovieApplication {
         user.setFavourites(movie);
     }
 
+    public void removeFromFavorites(User user, Movie movie) {
+        user.removeFromFavourite(movie);
+    }
 
 }
