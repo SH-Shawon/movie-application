@@ -8,10 +8,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
-import java.util.Scanner;
+import java.util.*;
 
 public class CommandLineOperations {
     private MovieApp movieApp;
@@ -110,6 +107,7 @@ public class CommandLineOperations {
         do {
             System.out.println("\nUser Menu:");
             System.out.println("1. Search Movies");
+            System.out.println("2. See Movie Details by Title");
             System.out.println("0. Logout");
             System.out.print("Enter your choice: ");
 
@@ -120,6 +118,9 @@ public class CommandLineOperations {
             switch (choice) {
                 case 1:
                     searchMovies(user);
+                    break;
+                case 2:
+                    seeMovieDetailsByTitle(user);
                     break;
                 case 0:
                     System.out.println("Logging out...");
@@ -160,6 +161,63 @@ public class CommandLineOperations {
                     System.out.println("Invalid movie choice.");
                 }
             }
+        }
+    }
+
+
+
+    private void seeMovieDetailsByTitle(User user) throws IOException {
+        Scanner scanner = new Scanner(System.in);
+        System.out.print("Enter movie title (or leave blank to search all movies): ");
+        String title = scanner.nextLine();
+
+        List<Movie> movies;
+        if (title.isEmpty()) {
+            movies = movieApp.getAllMovies();
+        } else {
+            Movie movie=movieApp.getMovieDetails(title);
+            if (movie==null){
+                movies= Collections.emptyList();
+            }else {
+                movies=List.of(movie);
+            }
+        }
+
+        if (movies.isEmpty()) {
+            System.out.println("No movies found.");
+            return;
+        }
+
+        System.out.println("\nMovie List:");
+        int serialNo = 1;
+        for (Movie movie : movies) {
+            System.out.println(serialNo++ + ". " + movie.getTitle());
+        }
+
+        System.out.print("\nEnter the serial number of the movie you want to see details (or 0 to cancel): ");
+        int choice = scanner.nextInt();
+        scanner.nextLine();
+
+        if (choice > 0 && choice <= movies.size()) {
+            Movie selectedMovie = movies.get(choice - 1);
+            System.out.println("\nMovie Details:");
+            System.out.println("Title: " + selectedMovie.getTitle());
+            System.out.println("Cast: " + String.join(", ", selectedMovie.getCast()));
+            System.out.println("Category: " + selectedMovie.getCategory());
+            System.out.println("Release Date: " + selectedMovie.getReleaseDate());
+            System.out.println("Budget: $" + selectedMovie.getBudget());
+            System.out.print("\nDo you want to add this movie to your favorites (y/n)? ");
+            String addToFavourites;
+            do {
+                System.out.print("\nDo you want to add this movie to your favorites (y/n)? ");
+                addToFavourites = scanner.nextLine().toLowerCase();
+            } while (!addToFavourites.equals("y") && !addToFavourites.equals("n"));
+
+            if (addToFavourites.equals("y")) {
+                movieApp.addToFavorites(user,selectedMovie);
+            }
+        } else {
+            System.out.println("Invalid choice or cancelled.");
         }
     }
 
