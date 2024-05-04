@@ -138,7 +138,7 @@ public class CommandLineOperations {
 
         List<Movie> results = movieApp.searchMovies(searchTerm);
         if (results.isEmpty()) {
-            System.out.println("No movies found matching your search term.");
+            System.out.println("No movies found");
         } else {
             System.out.println("\nSearch Results:");
             int serialNo = 1;
