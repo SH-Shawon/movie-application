@@ -1,4 +1,4 @@
-package com.sakibul.movie_application.entitys;
+package com.sakibul.movie_application.entities;
 
 import org.junit.jupiter.api.Test;
 

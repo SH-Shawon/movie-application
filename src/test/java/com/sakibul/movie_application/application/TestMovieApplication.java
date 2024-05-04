@@ -1,5 +1,6 @@
 package com.sakibul.movie_application.application;
 
+import com.sakibul.movie_application.entities.User;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;

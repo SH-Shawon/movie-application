@@ -1,4 +1,4 @@
-package com.sakibul.movie_application.entitys;
+package com.sakibul.movie_application.entities;
 
 import java.time.LocalDate;
 import java.util.List;

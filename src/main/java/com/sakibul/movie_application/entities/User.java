@@ -1,4 +1,4 @@
-package com.sakibul.movie_application.entitys;
+package com.sakibul.movie_application.entities;
 
 import java.util.ArrayList;
 import java.util.List;
