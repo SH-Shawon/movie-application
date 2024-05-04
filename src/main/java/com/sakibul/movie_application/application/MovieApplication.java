@@ -48,4 +48,35 @@ public class MovieApplication {
         allMovies.add(new Movie(title, cast, category, releaseDate, budget));
     }
 
+    public List<Movie> searchMovies(String searchTerm) {
+        List<Movie> results = new ArrayList<>();
+        for (Movie movie : allMovies) {
+            if (movie.getTitle() != null && movie.getTitle().toLowerCase().contains(searchTerm.toLowerCase())) {
+                results.add(movie);
+                continue;
+            }
+
+            List<String> cast = movie.getCast();
+            if (cast != null) {
+                for (String item : cast) {
+                    if (item.toLowerCase().contains(searchTerm.toLowerCase())) {
+                        results.add(movie);
+                        break;
+                    }
+                }
+            }
+
+            List<String> category = movie.getCategory();
+            if (category != null) {
+                for (String item : category) {
+                    if (item.toLowerCase().contains(searchTerm.toLowerCase())) {
+                        results.add(movie);
+                        break;
+                    }
+                }
+            }
+        }
+        return results;
+    }
+
 }
