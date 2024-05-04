@@ -110,6 +110,7 @@ public class CommandLineOperations {
             System.out.println("2. See Movie Details by Title");
             System.out.println("3. View Personal Details");
             System.out.println("4. Search movies that are among your favorite list");
+            System.out.println("5. See movies that you added as favorite");
             System.out.println("0. Logout");
             System.out.print("Enter your choice: ");
 
@@ -130,6 +131,9 @@ public class CommandLineOperations {
                 case 4:
                     searchFavoriteList(user);
                     break;
+                case 5:
+                    seeFavoriteList(user);
+                    break;
                 case 0:
                     System.out.println("Logging out...");
                     System.exit(0);
@@ -139,6 +143,8 @@ public class CommandLineOperations {
             }
         } while (choice != 0);
     }
+
+
 
     private void searchMovies(User user) throws IOException {
         System.out.print("Enter title, cast or category to search: ");
@@ -272,6 +278,20 @@ public class CommandLineOperations {
             System.out.println("\nSearch Results:");
             int serialNo = 1;
             for (Movie movie : filteredFavorites) {
+                System.out.println(serialNo++ + ". " + movie.getTitle());
+            }
+        }
+    }
+
+
+    private void seeFavoriteList(User user) {
+        System.out.println("\nFavorites:");
+        List<Movie> favourites = user.getFavourites();
+        if (favourites.isEmpty()) {
+            System.out.println("You don't have any favorite movies yet.");
+        } else {
+            int serialNo = 1;
+            for (Movie movie : favourites) {
                 System.out.println(serialNo++ + ". " + movie.getTitle());
             }
         }
