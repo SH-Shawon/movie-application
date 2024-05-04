@@ -79,4 +79,9 @@ public class MovieApplication {
         return results;
     }
 
+    public void addToFavorites(User user, Movie movie) {
+        user.setFavourites(movie);
+    }
+
+
 }
