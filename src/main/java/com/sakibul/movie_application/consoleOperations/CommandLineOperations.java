@@ -145,6 +145,21 @@ public class CommandLineOperations {
             for (Movie movie : results) {
                 System.out.println(serialNo++ + ". " + movie.getTitle());
             }
+            Scanner scanner = new Scanner(System.in);
+            System.out.print("\nDo you want to add a movie to your favorites (y/n)? ");
+            String addToFavourites = bufferedReader.readLine().toLowerCase();
+            if (addToFavourites.equals("y")) {
+                System.out.print("Enter the serial number of the movie to add: ");
+
+                int movieChoice = scanner.nextInt() - 1; // Adjust for 0-based indexing
+                System.out.println("you choose:"+ movieChoice);
+                if (movieChoice >= 0 && movieChoice < results.size()) {
+                    movieApp.addToFavorites(user, results.get(movieChoice));
+                    System.out.println("Movie added to favorites successfully!");
+                } else {
+                    System.out.println("Invalid movie choice.");
+                }
+            }
         }
     }
 
