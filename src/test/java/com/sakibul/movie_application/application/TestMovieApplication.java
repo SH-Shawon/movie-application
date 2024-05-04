@@ -150,4 +150,34 @@ public class TestMovieApplication {
 
         assertTrue(user.getFavourites().isEmpty() || !user.getFavourites().contains(movie));
     }
+
+    @Test
+    public void testGetMovieDetails() {
+        MovieApplication movieApplication = new MovieApplication();
+
+        String title1 = "The Shawshank Redemption";
+        List<String> cast1 = new ArrayList<>();
+        cast1.add("Tim Robbins");
+        cast1.add("Morgan Freeman");
+        List<String> category1 = List.of("Drama");
+        LocalDate releaseDate1 = LocalDate.parse("1994-10-14");
+        int budget1 = 25000000;
+
+        String title2 = "The Godfather";
+        List<String> cast2 = List.of("Marlon Brando", "Al Pacino");
+        List<String> category2 = List.of("Crime");
+        LocalDate releaseDate2 = LocalDate.parse("1972-03-24");
+        int budget2 = 6000000;
+
+        movieApplication.addMovie(title1, cast1, category1, releaseDate1, budget1);
+        movieApplication.addMovie(title2, cast2, category2, releaseDate2, budget2);
+
+        Movie movie1 = movieApplication.getMovieDetails(title1);
+        assertNotNull(movie1);
+        assertEquals(title1, movie1.getTitle());
+
+        Movie movie2 = movieApplication.getMovieDetails("The Dark Knight");
+        assertNull(movie2);
+    }
+
 }
