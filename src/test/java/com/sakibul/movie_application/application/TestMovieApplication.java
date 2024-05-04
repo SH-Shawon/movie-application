@@ -8,8 +8,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class TestMovieApplication {
     @Test
@@ -99,5 +98,29 @@ public class TestMovieApplication {
         assertEquals(1, results.size());
         Movie movie = results.get(0);
         assertEquals(title, movie.getTitle());
+    }
+
+    @Test
+    public void testAddToFavorites() {
+        MovieApplication movieApplication = new MovieApplication();
+
+        String email = "shawon@gmail.com";
+        movieApplication.registerUser(email);
+        User user = movieApplication.getUserDetails(email);
+
+        String title = "The Shawshank Redemption";
+        List<String> cast = new ArrayList<>();
+        cast.add("Tim Robbins");
+        cast.add("Morgan Freeman");
+        List<String> category = List.of("Drama");
+        LocalDate releaseDate = LocalDate.parse("1994-10-14");
+        int budget = 25000000;
+        Movie movie = new Movie(title, cast, category, releaseDate, budget);
+        movieApplication.addMovie(title, cast, category, releaseDate, budget);
+
+        movieApplication.addToFavorites(user, movie);
+
+        assertNotNull(user.getFavourites());
+        assertTrue(user.getFavourites().contains(movie));
     }
 }
