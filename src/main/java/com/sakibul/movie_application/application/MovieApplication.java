@@ -87,4 +87,13 @@ public class MovieApplication {
         user.removeFromFavourite(movie);
     }
 
+    public Movie getMovieDetails(String title) {
+        for (Movie movie : allMovies) {
+            if (movie.getTitle().equals(title)) {
+                return movie;
+            }
+        }
+        return null;
+    }
+
 }
