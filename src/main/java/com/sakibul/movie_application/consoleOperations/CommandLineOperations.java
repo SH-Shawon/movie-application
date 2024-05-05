@@ -111,6 +111,8 @@ public class CommandLineOperations {
             System.out.println("3. View Personal Details");
             System.out.println("4. Search movies that are among your favorite list");
             System.out.println("5. See movies that you added as favorite");
+            System.out.println("6. Add Movie to Favorites");
+            System.out.println("7. Remove Movie from Favorites");
             System.out.println("0. Logout");
             System.out.print("Enter your choice: ");
 
@@ -133,6 +135,12 @@ public class CommandLineOperations {
                     break;
                 case 5:
                     seeFavoriteList(user);
+                    break;
+                case 6:
+                    addMovieToFavorites(user);
+                    break;
+                case 7:
+                    removeMovieFromFavorites(user);
                     break;
                 case 0:
                     System.out.println("Logging out...");
@@ -166,7 +174,7 @@ public class CommandLineOperations {
             if (addToFavourites.equals("y")) {
                 System.out.print("Enter the serial number of the movie to add: ");
 
-                int movieChoice = scanner.nextInt() - 1; // Adjust for 0-based indexing
+                int movieChoice = scanner.nextInt() - 1;
                 System.out.println("you choose:"+ movieChoice);
                 if (movieChoice >= 0 && movieChoice < results.size()) {
                     movieApp.addToFavorites(user, results.get(movieChoice));
@@ -297,5 +305,59 @@ public class CommandLineOperations {
         }
     }
 
+
+    private void addMovieToFavorites(User user) throws IOException {
+        List<Movie> allMovies = movieApp.getAllMovies();
+        if (allMovies.isEmpty()) {
+            System.out.println("No movies available.");
+            return;
+        }
+
+        System.out.println("\nAvailable Movies:");
+        int serialNo = 1;
+        for (Movie movie : allMovies) {
+            System.out.println(serialNo++ + ". " + movie.getTitle());
+        }
+
+        System.out.print("\nEnter the serial number of the movie to add to favorites (or 0 to cancel): ");
+        Scanner scanner = new Scanner(System.in);
+        int choice = scanner.nextInt();
+        scanner.nextLine();
+
+        if (choice > 0 && choice <= allMovies.size()) {
+            Movie selectedMovie = allMovies.get(choice - 1);
+            movieApp.addToFavorites(user,selectedMovie);
+        } else {
+            System.out.println("Invalid choice or cancelled.");
+        }
+    }
+
+
+    private void removeMovieFromFavorites(User user) {
+        List<Movie> favorites = user.getFavourites();
+        if (favorites.isEmpty()) {
+            System.out.println("You don't have any favorite movies yet.");
+            return;
+        }
+
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.println("\nYour Favorite Movies:");
+        int serialNo = 1;
+        for (Movie movie : favorites) {
+            System.out.println(serialNo++ + ". " + movie.getTitle());
+        }
+
+        System.out.print("\nEnter the serial number of the movie to remove (or 0 to cancel): ");
+        int choice = scanner.nextInt();
+        scanner.nextLine();
+
+        if (choice > 0 && choice <= favorites.size()) {
+            Movie selectedMovie = favorites.get(choice - 1);
+            movieApp.removeFromFavorites(user,selectedMovie);
+        } else {
+            System.out.println("Invalid choice or cancelled.");
+        }
+    }
 
 }
